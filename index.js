@@ -6,7 +6,24 @@ const cors = require('cors');
 require('dotenv').config()
 app.use(cors());
 app.use(express.json())
+const jwt = require('jsonwebtoken');
 
+const verifyJWT = (req, res, next) => {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+        return res.status(401).send({ error: true, message: 'unauthorized access' });
+    }
+    // bearer token
+    const token = authorization.split(' ')[1];
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({ error: true, message: 'unauthorized access' })
+        }
+        req.decoded = decoded;
+        next();
+    })
+}
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dkm5by0.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -25,6 +42,23 @@ async function run() {
         const menuCollection = client.db('opulenza').collection('menu')
         const userCollection = client.db('opulenza').collection('users')
 
+        const verifyAdmin = async (req, res, next) => {
+            const email = req.decoded.email;
+            const query = { email: email }
+            const user = await userCollection.findOne(query);
+            if (user?.role !== 'admin') {
+                return res.status(403).send({ error: true, message: 'forbidden message' });
+            }
+            next();
+        }
+
+        app.post('/jwt', (req, res) => {
+            const user = req.body;
+            const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+            res.send({ token })
+        })
+
+
         app.get('/menu', async (req, res) => {
             const result = await menuCollection.find().toArray();
             res.send(result)
@@ -40,21 +74,56 @@ async function run() {
         app.get('/users', async (req, res) => {
             const result = await userCollection.find().toArray();
             res.send(result)
-          })
+        })
 
         app.post('/users', async (req, res) => {
             const user = req.body;
-      
+
             const query = { email: user.email }
             const existingUser = await userCollection.findOne(query)
-      
+
             if (existingUser) {
-              return res.send({ message: 'user already exist' })
+                return res.send({ message: 'user already exist' })
             }
             const result = await userCollection.insertOne(user)
             res.send(result)
-          })
+        })
 
+        app.get('/users/admin/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+
+            if (req.decoded.email !== email) {
+                res.send({ admin: false })
+            }
+            const query = { email: email }
+            const user = await userCollection.findOne(query)
+            const result = { admin: user?.role === 'admin' }
+            res.send(result)
+        })
+
+        app.get('/users/staff/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+
+            if (req.decoded.email !== email) {
+                res.send({ staff: false })
+            }
+            const query = { email: email }
+            const user = await userCollection.findOne(query)
+            const result = { staff: user?.role === 'staff' }
+            res.send(result)
+        })
+
+        app.get('/users/customer/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+
+            if (req.decoded.email !== email) {
+                res.send({ customer: false })
+            }
+            const query = { email: email }
+            const user = await userCollection.findOne(query)
+            const result = { customer: user?.role === 'customer' }
+            res.send(result)
+        })
 
         // await client.connect();
         // Send a ping to confirm a successful connection
