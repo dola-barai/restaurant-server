@@ -70,7 +70,7 @@ async function run() {
             res.send(result)
         })
 
-        app.get('/users', verifyAdmin, async (req, res) => {
+        app.get('/users', async (req, res) => {
             const result = await userCollection.find().toArray();
             res.send(result)
         })
@@ -88,6 +88,13 @@ async function run() {
             res.send(result)
         })
 
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await userCollection.deleteOne(query);
+            res.send(result)
+        })
+
         app.get('/users/admin/:email', verifyJWT, async (req, res) => {
             const email = req.params.email;
 
@@ -97,6 +104,18 @@ async function run() {
             const query = { email: email }
             const user = await userCollection.findOne(query)
             const result = { admin: user?.role === 'admin' }
+            res.send(result)
+        })
+
+        app.patch('/users/admin/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const updateDoc = {
+                $set: {
+                    role: 'admin'
+                },
+            }
+            const result = await userCollection.updateOne(filter, updateDoc)
             res.send(result)
         })
 
