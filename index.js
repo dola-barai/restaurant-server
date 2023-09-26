@@ -1,13 +1,22 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import bodyParser from "body-parser";
+import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
+import dotenv from 'dotenv';
 
-const jwt = require('jsonwebtoken');
-require('dotenv').config()
+
+import reservationRoutes from "./routes/reservation.js";
+import jwt from 'jsonwebtoken';
+
+const app = express();
+app.use(bodyParser.json());
+const PORT = process.env.PORT || 5000;
+dotenv.config();
 app.use(cors());
 app.use(express.json())
+app.use("/api/reservation", reservationRoutes);
+
 
 const verifyJWT = (req, res, next) => {
     const authorization = req.headers.authorization;
@@ -132,6 +141,10 @@ app.get('/', (req, res) => {
     res.send('Restaurant ongoing!')
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+mongoose
+    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() =>
+        app.listen(PORT, () => {
+            console.log(`server running on port ${PORT}`);
+        })
+    )
