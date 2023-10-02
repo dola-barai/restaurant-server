@@ -88,11 +88,11 @@ export const confirmingEmail = async (req, res) => {
             from: "opulenzaverve@gmail.com", // Sender's email address
             to: `${userEmail}`, // Recipient's email address
             subject: "Reservation Confirmation", // Email subject
-            text: `Dear ${userName},\n\nWe are thrilled to confirm your table reservation at Opulenza Verve for ${userDate} at ${userTime}. We can't wait to welcome you for a delightful dining experience.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userTime}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you have any special requests or need to make changes, feel free to contact us at ${userPhone}.\n\nWe're excited to host you and make your visit unforgettable.\n\nBest regards,\nOpulenza Verve`,
+            text: `Dear ${userName},\n\nWe are thrilled to confirm your table reservation at Opulenza Verve for ${userDate} at ${userTime}. We can't wait to welcome you for a delightful dining experience.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userTime}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you have any special requests or need to make changes, feel free to contact us at opulenzaverve@gmail.com.\n\nWe're excited to host you and make your visit unforgettable.\n\nBest regards,\nOpulenza Verve`,
              attachments: [
                   {
                  filename: 'ReservationConfirmation.txt',
-                 content: `Dear ${userName},\n\nWe are thrilled to confirm your table reservation at Opulenza Verve for ${userDate} at ${userTime}. We can't wait to welcome you for a delightful dining experience.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userTime}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you have any special requests or need to make changes, feel free to contact us at ${userPhone}.\n\nWe're excited to host you and make your visit unforgettable.\n\nBest regards,\nOpulenza Verve`,
+                 content: `Dear ${userName},\n\nWe are thrilled to confirm your table reservation at Opulenza Verve for ${userDate} at ${userTime}. We can't wait to welcome you for a delightful dining experience.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userTime}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you have any special requests or need to make changes, feel free to contact us at opulenzaverve@gmail.com.\n\nWe're excited to host you and make your visit unforgettable.\n\nBest regards,\nOpulenza Verve`,
     },
   ],
         };
