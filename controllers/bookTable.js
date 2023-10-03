@@ -115,6 +115,7 @@ export const confirmingEmail = async (req, res) => {
 
 export const deletingEmail = async (req, res) => {
     const { reservationId, userEmail, userName, userDate, userSize, userTime } = req.body;
+    console.log(req.body);
     console.log(reservationId);
     console.log(userEmail);
 
