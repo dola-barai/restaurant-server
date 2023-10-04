@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 
 
 import reservationRoutes from "./routes/reservation.js";
+import contactRoutes from "./routes/contact.js";
 import jwt from 'jsonwebtoken';
 
 const app = express();
@@ -16,7 +17,7 @@ dotenv.config();
 app.use(cors());
 app.use(express.json())
 app.use("/api/reservation", reservationRoutes);
-
+app.use("/api/contact", contactRoutes);
 
 const verifyJWT = (req, res, next) => {
     const authorization = req.headers.authorization;
