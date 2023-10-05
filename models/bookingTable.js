@@ -28,6 +28,10 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    selectedPeriod: {
+    type: String,
+    reuired: true,
+  },
 });
 
 export default mongoose.model("Booking", bookingSchema);
