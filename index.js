@@ -127,6 +127,7 @@ async function run() {
             }
             const result = await userCollection.updateOne(filter, updateDoc)
             res.send(result)
+            console.log(result);
         })
 
         await client.db("admin").command({ ping: 1 });
