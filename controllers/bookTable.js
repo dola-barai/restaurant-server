@@ -114,7 +114,7 @@ export const confirmingEmail = async (req, res) => {
 };
 
 export const deletingEmail = async (req, res) => {
-    const { reservationId, userEmail, userName, userDate, userSize, userTime } = req.body;
+    const { reservationId, userEmail, userName, userDate, userSize, userSelectedHour , userSelectedPeriod} = req.body;
     console.log(req.body);
     console.log(reservationId);
     console.log(userEmail);
@@ -143,7 +143,7 @@ export const deletingEmail = async (req, res) => {
             from: "opulenzaverve@gmail.com", // Sender's email address
             to: `${userEmail}`, // Recipient's email address
             subject: "Reservation Cancelled", // Email subject
-            text: `Dear ${userName},\n\nWe regret to inform you that your reservation at Opulenza Verve for ${userDate} at ${userTime} has been canceled.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userTime}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you need assistance or wish to reschedule, please contact us at opulenzaverve@gmail.com.\n\nWe hope to welcome you back in the future.\n\nBest regards,\n Opulenza Verve`, // Email text
+            text: `Dear ${userName},\n\nWe regret to inform you that your reservation at Opulenza Verve for ${userDate} at ${userSelectedHour + userSelectedPeriod} has been canceled.\n\nReservation Details:\n- Date: ${userDate}\n- Time: ${userSelectedHour + userSelectedPeriod}\n- Guests: ${userSize}\n- Reservation Name: ${userName}\n\nIf you need assistance or wish to reschedule, please contact us at opulenzaverve@gmail.com.\n\nWe hope to welcome you back in the future.\n\nBest regards,\n Opulenza Verve`, // Email text
         };
 
         // Send the email
