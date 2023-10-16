@@ -75,8 +75,8 @@ export const confirmingEmail = async (req, res) => {
             secureConnection: false,
 
             auth: {
-                user: "kashyapsaurabh0908@gmail.com", // Your Gmail email address
-                pass: "eqgvcucvhqidvpks", // Your Gmail password or an app-specific password
+                user: "digvijaysingh17101999@gmail.com", // Your Gmail email address
+                pass: "isfsaumokmeglknn", // Your Gmail password or an app-specific password
             },
             tls: {
                 rejectionUnAuthorized: true,
@@ -130,8 +130,8 @@ export const deletingEmail = async (req, res) => {
             secureConnection: false,
 
             auth: {
-                user: "kashyapsaurabh0908@gmail.com", // Your Gmail email address
-                pass: "eqgvcucvhqidvpks", // Your Gmail password or an app-specific password
+                user: "digvijaysingh17101999@gmail.com", // Your Gmail email address
+                pass: "isfsaumokmeglknn", // Your Gmail password or an app-specific password
             },
             tls: {
                 rejectionUnAuthorized: true,
